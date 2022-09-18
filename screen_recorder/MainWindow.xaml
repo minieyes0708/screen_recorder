@@ -1,0 +1,133 @@
+﻿<Window x:Class="screen_recorder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:screen_recorder"
+        mc:Ignorable="d"
+        Padding="30"
+        SizeToContent="WidthAndHeight"
+        Title="Screen Recorder" Height="450" Width="500">
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontFamily" Value="Sans-Serif"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Name="grid">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform x:Name="transform"/>
+                                </Grid.RenderTransform>
+                                <Border Name="border" BorderBrush="Gray" BorderThickness="1" Background="#F6F7F7" CornerRadius="5"/>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="5"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Effect" TargetName="border">
+                                        <Setter.Value>
+                                            <DropShadowEffect ShadowDepth="0.1"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <EventTrigger RoutedEvent="PreviewMouseDown">
+                                    <BeginStoryboard>
+                                        <Storyboard Duration="0:0:0.01" AutoReverse="False">
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="transform"
+                                                Storyboard.TargetProperty="X"
+                                                Duration="0:0:0.01"
+                                                From="0" To="1"
+                                                FillBehavior="HoldEnd"/>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="transform"
+                                                Storyboard.TargetProperty="Y"
+                                                Duration="0:0:0.01"
+                                                From="0" To="1"
+                                                FillBehavior="HoldEnd"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="PreviewMouseUp">
+                                    <BeginStoryboard>
+                                        <Storyboard Duration="0:0:0.01" AutoReverse="False">
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="transform"
+                                                Storyboard.TargetProperty="X"
+                                                Duration="0:0:0.01"
+                                                From="1" To="0"
+                                                FillBehavior="HoldEnd"/>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="transform"
+                                                Storyboard.TargetProperty="Y"
+                                                Duration="0:0:0.01"
+                                                From="1" To="0"
+                                                FillBehavior="HoldEnd"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </StackPanel.Resources>
+        <Button Name="btnSelectRegion" Click="btnSelectRegion_Click" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Viewbox Width="24" Height="24" Margin="5">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="Black" Data="M19,6H22V8H19V11H17V8H14V6H17V3H19V6M17,17V14H19V19H3V6H11V8H5V17H17Z" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock VerticalAlignment="Center" Margin="5">Select Region</TextBlock>
+            </StackPanel>
+        </Button>
+        <Button Name="btnRecordScreen" Click="btnRecordScreen_Click" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Viewbox Width="24" Height="24" Margin="5">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="Red" Data="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7Z" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock VerticalAlignment="Center" Margin="5" Text="{Binding BtnRecordText}"/>
+            </StackPanel>
+        </Button>
+        <Button Name="btnShowVideo" Click="btnShowVideo_Click" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Viewbox Width="24" Height="24" Margin="5">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="Green" Data="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.89 20.1 3 19 3M10 16V8L15 12" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock VerticalAlignment="Center" Margin="5">Show Video</TextBlock>
+            </StackPanel>
+        </Button>
+        <Button Name="btnConvertGif" Click="btnConvertGif_Click" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Viewbox Width="24" Height="24" Margin="5">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="Orange" Data="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8M20,12V20H12V12H20M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10M14,13V19L18,16L14,13Z" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock VerticalAlignment="Center" Margin="5" Text="{Binding BtnConvertGifText}"/>
+            </StackPanel>
+        </Button>
+        <Button Name="btnShowGif" Click="btnShowGif_Click" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Viewbox Width="24" Height="24" Margin="5">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="#0091EA" Data="M11 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4H5L7 8H10L8 4H10L12 8H15L13 4H15L17 8H20L18 4H22V13C21.5 12.2 20.8 11.5 20 11V10H5.8L4 6.5V18H10.2C10.4 18.7 10.6 19.4 11 20M20.3 18.9C20.7 18.2 21 17.4 21 16.5C21 14 19 12 16.5 12S12 14 12 16.5 14 21 16.5 21C17.4 21 18.2 20.8 18.9 20.3L22 23.4L23.4 22L20.3 18.9M16.5 19C15.1 19 14 17.9 14 16.5S15.1 14 16.5 14 19 15.1 19 16.5 17.9 19 16.5 19Z" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock VerticalAlignment="Center" Margin="5">Show Gif</TextBlock>
+            </StackPanel>
+        </Button>
+        <Viewbox Width="48" Height="48">
+            <Canvas Width="24" Height="24">
+                <Path Fill="MediumPurple" Data="M18,14L14,10.8V14H6V6H14V9.2L18,6M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4C22,2.89 21.1,2 20,2Z" />
+            </Canvas>
+        </Viewbox>
+    </StackPanel>
+</Window>
